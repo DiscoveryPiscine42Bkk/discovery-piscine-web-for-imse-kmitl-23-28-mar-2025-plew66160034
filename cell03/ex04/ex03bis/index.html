@@ -1,95 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TODO LIST</title>
-    <script
-      src="https://code.jquery.com/jquery-3.6.1.min.js"
-      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-      crossorigin="anonymous"
-    ></script>
-    <style>
-      #ft_list > div {
-        margin: 10px;
-        background-color: #66ff00;
-        padding: 10px;
-        border-radius: 10px;
-        cursor: pointer;
-      }
-      #ft_list > div:hover {
-        background-color: #663300;
-      }
-    </style>
-  </head>
-  <body>
-    <div style="width: 100%; text-align: left">
-      <h1>TODO LIST</h1>
-      <div
-        style="margin-left: auto; margin-right: auto; padding: 10px"
-        id="ft_list"
-      ></div>
-      <button id="create">NEW</button>
-    </div>
-  </body>
-  <script>
-    $(document).ready(() => {
-      let ft_list = $("#ft_list");
-
-      
-      function setCookie(name, value, days) {
-        let date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
-      }
-
-      
-      function getCookies() {
-        let cookies = document.cookie.split("; ");
-        let result = {};
-        cookies.forEach((cookie) => {
-          let [key, value] = cookie.split("=");
-          if (key && value) result[key] = decodeURIComponent(value);
-        });
-        return result;
-      }
-
-     
-      function deleteCookie(name) {
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
-      }
-
-     
-      function createTodoItem(name, txt) {
-        let list = $("<div></div>").text(txt);
-        list.click(() => {
-          const check = confirm("Do you want to delete?");
-          if (check) {
-            list.remove();
-            deleteCookie(name);
-          }
-        });
-        ft_list.prepend(list);
-      }
-
-      
-      $("#create").click(() => {
-        let txt = prompt("Please Enter TODO LIST:");
-        if (txt) {
-          const name = `todo_${new Date().getTime()}`;
-          setCookie(name, txt, 365); // เก็บไว้ 1 ปี
-          createTodoItem(name, txt);
-        }
-      });
-
-      
-      let storedTodos = getCookies();
-      Object.keys(storedTodos).forEach((key) => {
-        if (key.startsWith("todo_")) {
-          createTodoItem(key, storedTodos[key]);
-        }
-      });
-    });
-  </script>
-</html>
+ <html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Document</title>
+     <script
+       src="https://code.jquery.com/jquery-3.6.1.min.js"
+       integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+       crossorigin="anonymous"
+     ></script>
+   </head>
+   <style>
+     #ft_list > div {
+       margin: 10px;
+       background-color: #66ff00;
+       padding: 10px;
+       border-radius: 10px;
+       cursor: pointer;
+     }
+     #ft_list > div:hover {
+       background-color: #663300;
+     }
+   </style>
+   <body>
+     <div style="width: 100%; text-align: center">
+       <h1>TODO LIST</h1>
+       <div
+         style="margin-left: auto; margin-right: auto; padding: 10px"
+         id="ft_list"
+       ></div>
+       <button id="create">NEW</button>
+     </div>
+   </body>
+   <script>
+     $(document).ready(() => {
+       const check = document.cookie;
+       let ft_list = $("#ft_list");
+       $("#create").click(() => {
+         let txt = prompt("Please Enter TODO LIST :");
+         const name = new Date().getTime();
+         document.cookie = `${name}=${txt}`;
+         let list = $("<div></div>").text(txt);
+         list.click(() => {
+           const check = confirm("Do you want to delete");
+           if (check) {
+             list.remove();
+             document.cookie =
+               name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+           }
+         });
+         ft_list.prepend(list);
+       });
+       if (check.length > 0) {
+         const cookie = check.split(";");
+         cookie.forEach((element) => {
+           let list = $("<div></div>").text(element.split("=")[1]);
+           list.click(() => {
+             const check = confirm("Do you want to delete");
+             if (check) {
+               list.remove();
+               document.cookie =
+                 element.split("=")[0] +
+                 "=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+             }
+           });
+           ft_list.prepend(list);
+         });
+       }
+     });
+   </script>
+ </html>
