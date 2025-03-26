@@ -36,8 +36,8 @@
     $("#target").submit((event) => {
       event.preventDefault();
 
-      const num1Str = event.target.num1.value;
-      const num2Str = event.target.num2.value;
+      let num1Str = event.target.num1.value.trim();
+      let num2Str = event.target.num2.value.trim();
       const operator = event.target.operator.value;
 
       
@@ -46,10 +46,19 @@
         return;
       }
 
+     
+      const invalidPattern = /\d+[a-zA-Z]+|\d+[^\d\s]+/g; 
+      if (invalidPattern.test(num1Str) || invalidPattern.test(num2Str)) {
+        alert("Error: ห้ามมีตัวอักษรหรือสัญลักษณ์แปลกๆ ระหว่างตัวเลข");
+        return;
+      }
+
+      
       const num1 = parseInt(num1Str);
       const num2 = parseInt(num2Str);
       let ans = 0;
 
+      
       if (isNaN(num1) || isNaN(num2)) {
         console.log("Error :(");
         alert("Error :(");
