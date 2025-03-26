@@ -40,13 +40,13 @@
       const num2Str = event.target.num2.value;
       const operator = event.target.operator.value;
 
-      // ตรวจสอบว่ามีช่องว่างหรือจุดในตัวเลขหรือไม่
+      
       if (num1Str.includes(' ') || num2Str.includes(' ') || num1Str.includes('.') || num2Str.includes('.')) {
         alert("Error: ห้ามใช้ช่องว่างหรือจุดในตัวเลข");
         return;
       }
 
-      const num1 = parseInt(num1Str);  // เปลี่ยนเป็น parseInt เพื่อให้ตรวจสอบเฉพาะตัวเลขจำนวนเต็ม
+      const num1 = parseInt(num1Str);
       const num2 = parseInt(num2Str);
       let ans = 0;
 
